@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { fetchSeedPersons } from "@/lib/api";
+import { fetchPersons } from "@/lib/api";
 import type { Person } from "@/types/person";
 
 type LoadState =
@@ -13,7 +13,7 @@ const App = () => {
 
   const load = () => {
     setState({ status: "loading" });
-    void fetchSeedPersons()
+    void fetchPersons()
       .then((persons) => setState({ status: "ready", persons }))
       .catch((error: unknown) =>
         setState({
@@ -33,16 +33,16 @@ const App = () => {
       <header className="space-y-2">
         <p className="text-sm font-medium text-muted-foreground">Address Book</p>
         <h1 className="text-3xl font-semibold tracking-tight text-foreground">
-          Phase 1 scaffold
+          Phase 2 API
         </h1>
         <p className="text-muted-foreground">
-          Domain logic and seed data live on the API. List and detail views
-          arrive in later phases.
+          Read-only REST list/detail is live. Full list and detail navigation
+          arrive in Phase 3.
         </p>
       </header>
 
       {state.status === "loading" && (
-        <p className="text-sm text-muted-foreground">Loading seed contacts…</p>
+        <p className="text-sm text-muted-foreground">Loading contacts…</p>
       )}
 
       {state.status === "error" && (
@@ -57,10 +57,10 @@ const App = () => {
       {state.status === "ready" && (
         <section className="space-y-3">
           <h2 className="text-lg font-medium text-foreground">
-            Seed contacts ({state.persons.length})
+            Contacts ({state.persons.length})
           </h2>
           {state.persons.length === 0 ? (
-            <p className="text-sm text-muted-foreground">No contacts in seed data.</p>
+            <p className="text-sm text-muted-foreground">No contacts yet.</p>
           ) : (
             <ul className="divide-y divide-border rounded-lg border border-border">
               {state.persons.map((person) => (

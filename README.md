@@ -4,11 +4,11 @@ Full-stack Address Book interview take-home: a REST API plus a responsive React 
 
 ## Status
 
-**Phase 1** — scaffold + Person domain + seed data. Read-only list/detail API and UI come next.
+**Phase 2** — read-only `/persons` API with in-memory store. List + detail UI comes in Phase 3.
 
 ## Stack
 
-- **Server:** Node.js, Express, TypeScript, in-memory seed data, Jest
+- **Server:** Node.js, Express, TypeScript, in-memory seed store, Jest + supertest
 - **Client:** React, Vite, TypeScript, Tailwind, shadcn/ui
 
 ## Run locally
@@ -23,15 +23,18 @@ npm run dev:client   # http://127.0.0.1:43122
 npm test
 ```
 
-Temporary Phase 1 endpoints:
+## API
 
-- `GET /health`
-- `GET /dev/seed` — sorted seed contacts (replaced by `/persons` in Phase 2)
+| Method | Path | Success |
+| --- | --- | --- |
+| `GET` | `/health` | `200` |
+| `GET` | `/persons` | `200` |
+| `GET` | `/persons/:id` | `200` / `404` |
 
-## What’s implemented (Phase 1)
+## What’s implemented
 
-- `server/` + `client/` packages and root scripts
-- Pure Person domain (`sortByName`, `listPersons`, `displayName`)
-- Seed dataset
-- Placeholder client that loads seed contacts
-- Domain Jest tests
+- Pure Person domain helpers (`sortByName`, `listPersons`, `displayName`)
+- In-memory store seeded on boot
+- Read-only REST list + detail
+- Placeholder client still on seed preview wiring until Phase 3
+- Domain, store, and API Jest tests
