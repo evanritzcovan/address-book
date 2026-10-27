@@ -1,10 +1,11 @@
+import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
 
 type AppShellProps = {
   title: string;
   description?: string;
-  actions?: React.ReactNode;
-  children: React.ReactNode;
+  actions?: ReactNode;
+  children: ReactNode;
 };
 
 const AppShell = ({ title, description, actions, children }: AppShellProps) => (
