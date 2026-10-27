@@ -90,11 +90,18 @@ const DetailRow = ({
 }: {
   label: string;
   value?: string;
-}) => (
-  <div className="flex flex-col gap-1 px-4 py-3 sm:flex-row sm:items-baseline sm:justify-between">
-    <dt className="text-sm text-muted-foreground">{label}</dt>
-    <dd className="font-medium text-foreground">{value?.trim() || "—"}</dd>
-  </div>
-);
+}) => {
+  const trimmed = value?.trim();
+  if (!trimmed) {
+    return null;
+  }
+
+  return (
+    <div className="flex flex-col gap-1 px-4 py-3 sm:flex-row sm:items-baseline sm:justify-between">
+      <dt className="text-sm text-muted-foreground">{label}</dt>
+      <dd className="font-medium text-foreground">{trimmed}</dd>
+    </div>
+  );
+};
 
 export default PersonDetailPage;

@@ -82,45 +82,35 @@ const PersonListPage = () => {
               {state.persons.length}{" "}
               {state.persons.length === 1 ? "contact" : "contacts"}
             </h2>
-            <div className="flex flex-wrap items-center gap-3">
-              <div className="flex items-center gap-2">
-                <Label
-                  htmlFor="sort-by-first"
-                  className={
-                    sortBy === "last"
-                      ? "text-foreground"
-                      : "text-muted-foreground"
-                  }
-                >
-                  Last
-                </Label>
-                <Switch
-                  id="sort-by-first"
-                  checked={sortBy === "first"}
-                  onCheckedChange={(checked) =>
-                    setSortBy(checked ? "first" : "last")
-                  }
-                  aria-label="Sort by first name"
-                />
-                <Label
-                  htmlFor="sort-by-first"
-                  className={
-                    sortBy === "first"
-                      ? "text-foreground"
-                      : "text-muted-foreground"
-                  }
-                >
-                  First
-                </Label>
-              </div>
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                onClick={() => setReloadToken((token) => token + 1)}
+            <div className="flex items-center gap-2">
+              <Label
+                htmlFor="sort-by-first"
+                className={
+                  sortBy === "last"
+                    ? "text-foreground"
+                    : "text-muted-foreground"
+                }
               >
-                Refresh
-              </Button>
+                Last
+              </Label>
+              <Switch
+                id="sort-by-first"
+                checked={sortBy === "first"}
+                onCheckedChange={(checked) =>
+                  setSortBy(checked ? "first" : "last")
+                }
+                aria-label="Sort by first name"
+              />
+              <Label
+                htmlFor="sort-by-first"
+                className={
+                  sortBy === "first"
+                    ? "text-foreground"
+                    : "text-muted-foreground"
+                }
+              >
+                First
+              </Label>
             </div>
           </div>
           <ul className="divide-y divide-border rounded-lg border border-border">

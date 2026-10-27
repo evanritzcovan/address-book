@@ -1,31 +1,29 @@
 # Address Book
 
-Full-stack take-home: a small REST API and a responsive React client for browsing an address book.
+Browse seeded contacts via a small Express API and a responsive React client.
 
 ## Summary
 
-Build an Address Book where a user can see a list of people and open a detail view for a selected person (first name, last name, phone, plus optional email/address). The solution uses a custom backend, runs locally from this repo, and is covered by automated server tests.
+For this take-home exercise, I built a small Address Book app: a contact list and a details page for each person. You can view people from an in-memory store, open a contact’s details (name, phone, and optional email/address), and toggle sorting by last or first name. The API and UI run locally from this repo; the server domain and HTTP layer are covered by Jest tests.
+
+I kept the final submission intentionally lean so the architecture and walkthrough stay easy to follow. Stretch goals are listed under the “Given more time” section below.
 
 ## Approach
 
-Keep a **thin functional domain** (`sortByName`, `listPersons`, `displayName`) that is easy to unit-test. An in-memory store and Express routes are adapters over that core; the React client is another adapter that calls the API with `fetch`.
+Sorting and display logic live in a small set of pure TypeScript helpers (`sortByName`, `listPersons`, `displayName`) so they’re easy to unit-test without running the API server or a browser. An in-memory store and Express routes use those helpers, and the React client calls the API with `fetch`.
 
-Scope stays close to the brief: **list + detail**, with a first/last name sort toggle. Create/update/delete, search, auth, and a real database are deferred (see below) so the walkthrough stays focused.
-
-## Stack
-
-- **Server:** Node.js, Express, TypeScript, in-memory seed store, Jest + supertest
-- **Client:** React, Vite, TypeScript, React Router, Tailwind CSS, shadcn/ui
+Stack: Node/Express + TypeScript on the server; React, Vite, React Router, Tailwind, and shadcn/ui on the client.
 
 ## Features implemented
 
-- Seeded in-memory contacts (demoable on first run)
-- `GET /persons` (optional `?sort=first|last`, default last name) and `GET /persons/:id`
-- Responsive list → detail UI with loading, empty, and error states
-- Sort toggle (last ↔ first) on the list
-- Jest tests for domain helpers, store, and HTTP API
+- Contacts seeded in-memory (usable on first run)
+- `GET /persons` with optional `?sort=first|last` (default: last name)
+- `GET /persons/:id` with `404` when missing
+- Responsive list and details UI with loading, empty, and error states
+- Sort toggle (last or first name) on the list
+- Jest tests for domain helpers, store, and HTTP API (supertest)
 
-## Run locally
+## Running locally
 
 Requires Node.js 20+.
 
@@ -39,7 +37,9 @@ npm run dev
 | API | http://127.0.0.1:43121 |
 | Client | http://127.0.0.1:43122 |
 
-Useful scripts:
+Quick check: open the client, click a contact to open details, use Back, then flip the Last/First sort switch and confirm the order changes.
+
+Other scripts:
 
 ```bash
 npm test              # server Jest suite
@@ -48,40 +48,32 @@ npm run dev:server    # API only
 npm run dev:client    # Vite only
 ```
 
-## API
+## Deploying to the cloud (not done for this submission)
 
-| Method | Path | Success |
-| --- | --- | --- |
-| `GET` | `/health` | `200` `{ "ok": true }` |
-| `GET` | `/persons?sort=first\|last` | `200` person array (default `last`) |
-| `GET` | `/persons/:id` | `200` person / `404` `{ "error": "Person not found" }` |
+I did not deploy a live environment, but a straightforward distributed setup would be:
 
-## Project layout
+1. Host the Express API on a Node-friendly service like Railway, Fly.io, or Render.
+2. Set `PORT` via the host’s env config.
+3. Build the client with `VITE_API_BASE` pointing at the public API URL (`npm run build --prefix client`).
+4. Serve `client/dist` as static assets on Vercel, Netlify, or Cloudflare Pages.
 
-```
-server/   Express API, domain, store, Jest tests
-client/   Vite + React UI
-```
+Rough effort for a first cloud deploy of the current app would be about half a day including DNS/env smoke checks.
 
 ## Given more time — features
 
-| Item | Rough effort |
+| What I would add | Rough effort |
 | --- | --- |
 | Create / edit / delete contacts (forms + POST/PUT/DELETE) | ~0.5–1 day |
 | List search (`?q=`) with matching UI | ~2–4 hours |
 | Persist to SQLite or Postgres | ~0.5–1 day |
-| Deploy API + static client (e.g. Railway/Fly + Vercel/Netlify) | ~0.5 day |
-| Auth (if multi-user were required) | ~1–2 days |
+| Ship the cloud deploy path above | ~0.5 day |
+| Auth (only if multi-user were required) | ~1–2 days |
 
 ## Given more time — robustness
 
-- Replace in-memory store with a real DB and migrations; data currently resets on restart
-- Shared Person types/schema (e.g. Zod) between server and client
-- Structured request logging and consistent error envelope
-- Frontend tests (component + one Playwright smoke: list → detail → sort)
-- Rate limiting / tighter input validation if the API were public
-- CI (install, test, typecheck) on every push
-
-## Cloud deploy (bonus / future)
-
-Not implemented for this submission. A straightforward path would be: containerize or run the Express API on a small Node host, build the client with `VITE_API_BASE` pointing at that API, and serve the Vite `dist/` as static assets (or same-origin behind a reverse proxy to avoid CORS).
+- Replace the in-memory store with a real DB and migrations (data currently resets on restart)
+- Share Person types/schema (e.g. Zod) between server and client
+- Structured request logging and a consistent error envelope
+- Frontend tests (component tests and one Playwright smoke covering the list, details, and sorting)
+- Rate limiting and tighter input validation if the API were public
+- CI on every push: install, `npm test`, `npm run typecheck`
