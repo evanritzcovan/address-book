@@ -6,14 +6,13 @@ import type { Person } from "../src/domain/person.js";
 const seed: Person[] = [
   {
     id: "seed-1",
-    firstName: "Ava",
+    firstName: "Zoe",
     lastName: "Nguyen",
     phone: "555-0101",
-    email: "ava@example.com",
   },
   {
     id: "seed-2",
-    firstName: "Ben",
+    firstName: "Ann",
     lastName: "Ortiz",
     phone: "555-0142",
   },
@@ -30,12 +29,23 @@ describe("GET /health", () => {
 });
 
 describe("GET /persons", () => {
-  it("returns sorted persons", async () => {
+  it("returns persons sorted by last name by default", async () => {
     const response = await request(buildApp()).get("/persons");
     expect(response.status).toBe(200);
     expect(response.body.map((person: Person) => person.id)).toEqual([
       "seed-1",
       "seed-2",
+    ]);
+  });
+
+  it("returns persons sorted by first name when sort=first", async () => {
+    const response = await request(buildApp())
+      .get("/persons")
+      .query({ sort: "first" });
+    expect(response.status).toBe(200);
+    expect(response.body.map((person: Person) => person.id)).toEqual([
+      "seed-2",
+      "seed-1",
     ]);
   });
 });
@@ -44,7 +54,7 @@ describe("GET /persons/:id", () => {
   it("returns a person", async () => {
     const response = await request(buildApp()).get("/persons/seed-1");
     expect(response.status).toBe(200);
-    expect(response.body.firstName).toBe("Ava");
+    expect(response.body.firstName).toBe("Zoe");
   });
 
   it("returns 404 when missing", async () => {

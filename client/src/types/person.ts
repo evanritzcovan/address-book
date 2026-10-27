@@ -6,3 +6,5 @@ export type Person = {
   email?: string;
   address?: string;
 };
+
+export type SortBy = "first" | "last";

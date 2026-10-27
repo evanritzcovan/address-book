@@ -1,85 +1,15 @@
-import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { fetchPersons } from "@/lib/api";
-import type { Person } from "@/types/person";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import PersonDetailPage from "@/pages/PersonDetailPage";
+import PersonListPage from "@/pages/PersonListPage";
 
-type LoadState =
-  | { status: "loading" }
-  | { status: "error"; message: string }
-  | { status: "ready"; persons: Person[] };
-
-const App = () => {
-  const [state, setState] = useState<LoadState>({ status: "loading" });
-
-  const load = () => {
-    setState({ status: "loading" });
-    void fetchPersons()
-      .then((persons) => setState({ status: "ready", persons }))
-      .catch((error: unknown) =>
-        setState({
-          status: "error",
-          message:
-            error instanceof Error ? error.message : "Unable to reach the API",
-        }),
-      );
-  };
-
-  useEffect(() => {
-    load();
-  }, []);
-
-  return (
-    <main className="mx-auto flex min-h-svh max-w-2xl flex-col gap-6 px-4 py-10">
-      <header className="space-y-2">
-        <p className="text-sm font-medium text-muted-foreground">Address Book</p>
-        <h1 className="text-3xl font-semibold tracking-tight text-foreground">
-          Phase 2 API
-        </h1>
-        <p className="text-muted-foreground">
-          Read-only REST list/detail is live. Full list and detail navigation
-          arrive in Phase 3.
-        </p>
-      </header>
-
-      {state.status === "loading" && (
-        <p className="text-sm text-muted-foreground">Loading contacts…</p>
-      )}
-
-      {state.status === "error" && (
-        <div className="space-y-3 rounded-lg border border-destructive/30 bg-destructive/5 p-4">
-          <p className="text-sm text-destructive">{state.message}</p>
-          <Button type="button" variant="outline" onClick={load}>
-            Retry
-          </Button>
-        </div>
-      )}
-
-      {state.status === "ready" && (
-        <section className="space-y-3">
-          <h2 className="text-lg font-medium text-foreground">
-            Contacts ({state.persons.length})
-          </h2>
-          {state.persons.length === 0 ? (
-            <p className="text-sm text-muted-foreground">No contacts yet.</p>
-          ) : (
-            <ul className="divide-y divide-border rounded-lg border border-border">
-              {state.persons.map((person) => (
-                <li
-                  key={person.id}
-                  className="flex flex-col gap-0.5 px-4 py-3 sm:flex-row sm:items-baseline sm:justify-between"
-                >
-                  <span className="font-medium text-foreground">
-                    {person.firstName} {person.lastName}
-                  </span>
-                  <span className="text-sm text-muted-foreground">{person.phone}</span>
-                </li>
-              ))}
-            </ul>
-          )}
-        </section>
-      )}
-    </main>
-  );
-};
+const App = () => (
+  <BrowserRouter>
+    <Routes>
+      <Route path="/" element={<PersonListPage />} />
+      <Route path="/persons/:id" element={<PersonDetailPage />} />
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
+  </BrowserRouter>
+);
 
 export default App;

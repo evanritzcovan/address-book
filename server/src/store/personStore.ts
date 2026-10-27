@@ -1,7 +1,11 @@
-import { listPersons, type Person } from "../domain/person.js";
+import {
+  listPersons,
+  type Person,
+  type SortBy,
+} from "../domain/person.js";
 
 export type PersonStore = {
-  list: () => Person[];
+  list: (sortBy?: SortBy) => Person[];
   getById: (id: string) => Person | undefined;
 };
 
@@ -11,7 +15,7 @@ export const createPersonStore = (
   const persons: Person[] = initial.map((person) => ({ ...person }));
 
   return {
-    list: () => listPersons(persons),
+    list: (sortBy = "last") => listPersons(persons, sortBy),
     getById: (id) => persons.find((person) => person.id === id),
   };
 };

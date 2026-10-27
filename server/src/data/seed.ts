@@ -1,41 +1,41 @@
 import type { Person } from "../domain/person.js";
 
-/** Demo contacts so the app is usable before any CRUD UI exists. */
+/** Demo contacts chosen so first-name vs last-name sort orders visibly differ. */
 export const seedPersons: Person[] = [
   {
     id: "seed-1",
-    firstName: "Ava",
-    lastName: "Nguyen",
+    firstName: "Zoe",
+    lastName: "Baker",
     phone: "555-0101",
-    email: "ava.nguyen@example.com",
+    email: "zoe.baker@example.com",
     address: "12 Cedar Lane, Portland, OR",
   },
   {
     id: "seed-2",
-    firstName: "Ben",
-    lastName: "Ortiz",
+    firstName: "Amy",
+    lastName: "Chen",
     phone: "555-0142",
-    email: "ben.ortiz@example.com",
+    email: "amy.chen@example.com",
   },
   {
     id: "seed-3",
-    firstName: "Chloe",
-    lastName: "Patel",
+    firstName: "Marcus",
+    lastName: "Abel",
     phone: "555-0199",
     address: "88 Market Street, Austin, TX",
   },
   {
     id: "seed-4",
-    firstName: "Diego",
-    lastName: "Ramirez",
+    firstName: "Priya",
+    lastName: "Young",
     phone: "555-0177",
-    email: "diego.ramirez@example.com",
+    email: "priya.young@example.com",
     address: "401 Lakeview Rd, Chicago, IL",
   },
   {
     id: "seed-5",
-    firstName: "Elena",
-    lastName: "Schmidt",
+    firstName: "Liam",
+    lastName: "Davis",
     phone: "555-0110",
   },
 ];
