@@ -4,7 +4,7 @@ Browse seeded contacts via a small Express API and a responsive React client.
 
 ## Summary
 
-For this take-home exercise, I built a small Address Book app: a contact list and a details page for each person. You can view people from an in-memory store, open a contact’s details (name, phone, and optional email/address), and toggle sorting by last or first name. The API and UI run locally from this repo; the server domain and HTTP layer are covered by Jest tests.
+For this take-home exercise, I built a small Address Book app comprised of a contact list and a details page for each person. You can view people from an in-memory store, open a contact’s details (name, phone, and optional email/address), and toggle sorting by last or first name. The API and UI run locally from this repo, and the server domain and HTTP layer are covered by Jest tests.
 
 I kept the final submission intentionally lean so the architecture and walkthrough stay easy to follow. Stretch goals are listed under the “Given more time” section below.
 
@@ -39,7 +39,7 @@ npm run dev
 
 Quick check: open the client, click a contact to open details, use Back, then flip the Last/First sort switch and confirm the order changes.
 
-Other scripts:
+### Other scripts:
 
 ```bash
 npm test              # server Jest suite
@@ -48,7 +48,7 @@ npm run dev:server    # API only
 npm run dev:client    # Vite only
 ```
 
-## Deploying to the cloud (not done for this submission)
+## Deploying to the cloud
 
 I did not deploy a live environment, but a straightforward distributed setup would be:
 
@@ -59,7 +59,9 @@ I did not deploy a live environment, but a straightforward distributed setup wou
 
 Rough effort for a first cloud deploy of the current app would be about half a day including DNS/env smoke checks.
 
-## Given more time — features
+## Given more time
+
+### Features
 
 | What I would add | Rough effort |
 | --- | --- |
@@ -69,7 +71,7 @@ Rough effort for a first cloud deploy of the current app would be about half a d
 | Ship the cloud deploy path above | ~0.5 day |
 | Auth (only if multi-user were required) | ~1–2 days |
 
-## Given more time — robustness
+### Robustness
 
 - Replace the in-memory store with a real DB and migrations (data currently resets on restart)
 - Share Person types/schema (e.g. Zod) between server and client
